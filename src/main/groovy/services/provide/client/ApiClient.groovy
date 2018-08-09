@@ -4,6 +4,7 @@ import groovy.json.JsonBuilder
 import org.apache.http.client.methods.*
 import org.apache.http.client.utils.URIBuilder
 import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.HttpClients
 
 /*
  * API client for the provide.services API.
