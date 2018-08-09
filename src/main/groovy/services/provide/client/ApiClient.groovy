@@ -3,6 +3,7 @@ package services.provide.client
 import groovy.json.JsonBuilder
 import org.apache.http.client.methods.*
 import org.apache.http.client.utils.URIBuilder
+import org.apache.http.util.EntityUtils
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
 
@@ -11,24 +12,25 @@ import org.apache.http.impl.client.HttpClients
  */
  public class ApiClient {
 
+    private static final DEFAULT_HOST = 'console.provide.services'
+    private static final DEFAULT_SCHEME = 'https'
+
     /**
-     * Static initializer for constructing API client instances.
+     * Static init for conveniently constructing API client instances.
      */
-    static def init(token) {
-        return new ApiClient(token)
+    static def init(scheme, host, token) {
+        return new ApiClient(scheme, host, token)
     }
 
     private def baseUrl
     private def token
     private def path = 'api/v1/'
 
-    private def ApiClient(token) {
-         def scheme = System.getenv('API_SCHEME')
+    private def ApiClient(scheme, host, token) {
          if (!scheme)
-            scheme = 'https'
-         def host = System.getenv('API_HOST')
+            scheme = DEFAULT_SCHEME
          if (!host)
-            host = 'console.provide.services'
+            host = DEFAULT_HOST
          this.baseUrl = "${scheme}://${host}/${path}"
          this.token = token
     }
@@ -51,7 +53,8 @@ import org.apache.http.impl.client.HttpClients
 
     private def call(method, uri, params, headers) {
         def resp
-        def entity
+        def respStatusCode
+        def respBody
 
         try {
             def httpClient = HttpClients.createDefault()
@@ -63,8 +66,8 @@ import org.apache.http.impl.client.HttpClients
 
             if (method == 'GET') {
                 def builder = new URIBuilder("${baseUrl}${uri}")
-                for (name in params) {
-                    builder.setParameter(params[name])
+                params.each { k, v ->
+                    builder.setParameter(k, v)
                 }
                 req = new HttpGet(builder.build())
             } else if (['POST', 'PUT', 'PATCH'].indexOf(method) != -1) {
@@ -76,27 +79,32 @@ import org.apache.http.impl.client.HttpClients
                     req = new HttpPatch("${baseUrl}${uri}")
                 }
                 headers['Content-Type'] = 'application/json'
-                for (name in reqHeaders) {
-                    req.setHeader(name, reqHeaders[name])
+                reqHeaders.each { k, v ->
+                    req.setHeader(k, v)
                 }
                 req.setEntity(new StringEntity(new JsonBuilder(params).toString()))
             }
 
             if (req) {
                 resp = httpClient.execute(req)
-                entity = resp.getEntity()
-                EntityUtils.consume(entity)
+                respStatusCode = resp?.statusLine?.statusCode
+                def entity = resp?.entity
+                if (entity) {
+                    respBody = EntityUtils.toString(entity)
+                    EntityUtils.consume(entity)
+                }
             }
         } catch (any) {
-            System.err.println('Failed to call API; ' + any)
+            System.out.println('ERROR: Failed to call provide API; ' + any)
         } finally {
-            if (response) response.close()
+            if (resp) resp.close()
         }
 
-        return [resp, entity]
+        [respStatusCode, respBody]
     }
 
     private def defaultHeaders() {
+        def headers = [:]
         def userAgent = System.getenv('API_USER_AGENT')
         if (!userAgent)
             userAgent = 'provide-groovy client'
