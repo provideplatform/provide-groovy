@@ -1,4 +1,6 @@
-package services.provide.client
+package services.provide.client.microservices
+
+import services.provide.client.ApiClient
 
 /*
  * Goldmine microservice; provides access to functionality
