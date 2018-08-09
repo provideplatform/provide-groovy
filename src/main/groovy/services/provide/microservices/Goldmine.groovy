@@ -30,4 +30,8 @@ import services.provide.client.ApiClient
     def createTransaction(params) {
         client.post('transactions', params)
     }
+
+    def executeContract(contractId, params) {
+        client.post("contracts/${contractId}/execute", params)
+    }
 }
