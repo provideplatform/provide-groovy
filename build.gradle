@@ -11,6 +11,11 @@ dependencies {
     // Use the latest Groovy version for building this library
     compile 'org.codehaus.groovy:groovy-all:2.4.13'
     compile 'org.apache.httpcomponents:httpclient:4.5.6'
+    compile 'com.github.ipfs:java-ipfs-api:v1.2.1'
+    compile 'com.github.multiformats:java-multibase:v1.0.0'
+    compile 'com.github.multiformats:java-multiaddr:v1.3.0'
+    compile 'com.github.multiformats:java-multihash:v1.2.0'
+    compile 'com.github.ipld:java-cid:v1.1.0'
 
     // Use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
@@ -21,4 +26,5 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    maven { url 'https://jitpack.io' }
 }

@@ -1,4 +1,5 @@
 import spock.lang.*
+
 import services.provide.client.ApiClient
 
 class ApiClientSpec extends Specification {
@@ -6,7 +7,7 @@ class ApiClientSpec extends Specification {
     def prvdClient
 
     def setup() {
-        this.prvdClient = ApiClient.init('some-api-token')
+        this.prvdClient = ApiClient.init(null, null, 'some-api-token')
     }
 
     def 'it should use production as the default api host'() {
