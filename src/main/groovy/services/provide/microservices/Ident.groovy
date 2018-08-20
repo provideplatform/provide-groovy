@@ -40,11 +40,11 @@ import services.provide.client.ApiClient
     }
 
     def fetchApplicationDetails(app_id) {
-        client.get("applications/#{app_id}")
+        client.get("applications/#{app_id}", [:])
     }
 
     def fetchApplicationTokens(app_id) {
-        client.get("applications/#{app_id}/tokens")
+        client.get("applications/#{app_id}/tokens", [:])
     }
 
     def authenticate(params) {
@@ -56,7 +56,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchTokenDetails(token_id) {
-        client.get("tokens/#{token_id}")
+        client.get("tokens/#{token_id}", [:])
     }
 
     def deleteToken(token_id) {
@@ -68,11 +68,11 @@ import services.provide.client.ApiClient
     }
 
     def fetchUsers() {
-        client.get('users')
+        client.get('users', [:])
     }
 
     def fetchUserDetails(user_id) {
-        client.get("users/#{user_id}")
+        client.get("users/#{user_id}", [:])
     }
 
     def updateUser(user_id, params) {
