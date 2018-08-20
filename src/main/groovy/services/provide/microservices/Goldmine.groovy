@@ -28,11 +28,11 @@ import services.provide.client.ApiClient
     }
 
     def fetchBridges(params = nil) {
-        client.get('bridges', (params || {}))
+        client.get('bridges', (params || [:]))
     }
 
     def fetchBridgeDetails(bridgeId) {
-        client.get("bridges/${bridgeId}")
+        client.get("bridges/${bridgeId}", [:])
     }
 
     def createBridge(params) {
@@ -40,7 +40,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchConnectors(params = nil) {
-        client.get('connectors', (params || {}))
+        client.get('connectors', (params || [:]))
     }
 
     def fetchConnectorDetails(connectorId) {
@@ -56,7 +56,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchContracts(params = nil) {
-        client.get('contracts', (params || {}))
+        client.get('contracts', (params || [:]))
     }
 
     def fetchContractDetails(contractId) {
@@ -72,7 +72,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchNetworks(params = nil) {
-        client.get('networks', (params || {}))
+        client.get('networks', (params || [:]))
     }
 
     def createNetwork(params) {
@@ -84,7 +84,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchNetworkDetails(networkId) {
-        client.get("networks/${networkId}")
+        client.get("networks/${networkId}", [:])
     }
 
     def fetchNetworkAccounts(networkId, params) {
@@ -108,7 +108,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchNetworkContractDetails(networkId, contractId) {
-        client.get("networks/${networkId}/contracts/${contractId}")
+        client.get("networks/${networkId}/contracts/${contractId}", [:])
     }
 
     def fetchNetworkOracles(networkId, params) {
@@ -124,15 +124,15 @@ import services.provide.client.ApiClient
     }
 
     def fetchNetworkTransactionDetails(networkId, transactionId) {
-        client.get("networks/${networkId}/transactions/${transactionId}")
+        client.get("networks/${networkId}/transactions/${transactionId}", [:])
     }
 
     def fetchNetworkStatus(networkId) {
-        client.get("networks/${networkId}/status")
+        client.get("networks/${networkId}/status", [:])
     }
 
     def fetchNetworkNodes(networkId, params = nil) {
-        client.get("networks/${networkId}/nodes", (params || {}))
+        client.get("networks/${networkId}/nodes", (params || [:]))
     }
 
     def createNetworkNode(networkId, params) {
@@ -140,11 +140,11 @@ import services.provide.client.ApiClient
     }
 
     def fetchNetworkNodeDetails(networkId, nodeId) {
-        client.get("networks/${networkId}/nodes/${nodeId}")
+        client.get("networks/${networkId}/nodes/${nodeId}", [:])
     }
 
     def fetchNetworkNodeLogs(networkId, nodeId) {
-        client.get("networks/${networkId}/nodes/${nodeId}/logs")
+        client.get("networks/${networkId}/nodes/${nodeId}/logs", [:])
     }
 
     def deleteNetworkNode(networkId, nodeId) {
@@ -152,11 +152,11 @@ import services.provide.client.ApiClient
     }
 
     def fetchOracles(params = nil) {
-        client.get('oracles', (params || {}))
+        client.get('oracles', (params || [:]))
     }
 
     def fetchOracleDetails(oracleId) {
-        client.get("oracles/${oracleId}")
+        client.get("oracles/${oracleId}", [:])
     }
 
     def createOracle(params) {
@@ -164,11 +164,11 @@ import services.provide.client.ApiClient
     }
 
     def fetchTokens(params = nil) {
-        client.get('tokens', (params || {}))
+        client.get('tokens', (params || [:]))
     }
 
     def fetchTokenDetails(tokenId) {
-        client.get("tokens/${tokenId}")
+        client.get("tokens/${tokenId}", [:])
     }
 
     def createToken(params) {
@@ -180,23 +180,23 @@ import services.provide.client.ApiClient
     }
 
     def fetchTransactions(params = nil) {
-        client.get('transactions', (params || {}))
+        client.get('transactions', (params || [:]))
     }
 
     def fetchTransactionDetails(txId) {
-        client.get("transactions/${txId}")
+        client.get("transactions/${txId}", [:])
     }
 
     def fetchWalletBalance(walletId, tokenId) {
-        client.get("wallets/${walletId}/balances/${tokenId}")
+        client.get("wallets/${walletId}/balances/${tokenId}", [:])
     }
 
     def fetchWallets(params = nil) {
-        client.get('wallets', (params || {}))
+        client.get('wallets', (params || [:]))
     }
 
     def fetchWalletDetails(walletId) {
-        client.get("wallets/${walletId}")
+        client.get("wallets/${walletId}", [:])
     }
 
     def createWallet(params) {
