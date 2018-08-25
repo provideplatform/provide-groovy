@@ -78,14 +78,15 @@ import org.apache.http.impl.client.HttpClients
                 } else if (method == 'PATCH') {
                     req = new HttpPatch("${baseUrl}${uri}")
                 }
-                headers['Content-Type'] = 'application/json'
-                reqHeaders.each { k, v ->
-                    req.setHeader(k, v)
-                }
+                reqHeaders['Content-Type'] = 'application/json'
                 req.setEntity(new StringEntity(new JsonBuilder(params).toString()))
             }
 
             if (req) {
+                reqHeaders.each { k, v ->
+                    req.setHeader(k, v)
+                }
+
                 resp = httpClient.execute(req)
                 respStatusCode = resp?.statusLine?.statusCode
                 def entity = resp?.entity
