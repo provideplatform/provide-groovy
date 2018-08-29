@@ -60,7 +60,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchContractDetails(contractId) {
-        client.get("contracts/${contractId}")
+        client.get("contracts/${contractId}", (params || [:]))
     }
 
     def createContract(params) {
