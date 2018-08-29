@@ -44,7 +44,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchConnectorDetails(connectorId) {
-        client.get("connectors/${connectorId}")
+        client.get("connectors/${connectorId}", [:])
     }
 
     def createConnector(params) {
@@ -60,7 +60,7 @@ import services.provide.client.ApiClient
     }
 
     def fetchContractDetails(contractId) {
-        client.get("contracts/${contractId}")
+        client.get("contracts/${contractId}", [:])
     }
 
     def createContract(params) {
