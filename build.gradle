@@ -16,6 +16,10 @@ dependencies {
     compile 'com.github.multiformats:java-multiaddr:v1.3.0'
     compile 'com.github.multiformats:java-multihash:v1.2.0'
     compile 'com.github.ipld:java-cid:v1.1.0'
+    compile 'io.jsonwebtoken:jjwt-api:0.10.5'
+
+    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5'
+    runtime 'io.jsonwebtoken:jjwt-jackson:0.10.5'
 
     // Use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
