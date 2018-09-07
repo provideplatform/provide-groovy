@@ -1,6 +1,8 @@
 package services.provide.client.microservices
 
+import groovy.json.JsonSlurper
 import services.provide.client.ApiClient
+import org.apache.commons.codec.binary.Base64
 
 /*
  * Goldmine microservice; provides access to functionality
@@ -18,6 +20,7 @@ import services.provide.client.ApiClient
     }
 
     private def client
+    private def app_id
 
     private def Goldmine(token) {
         def scheme = System.getenv('GOLDMINE_API_SCHEME')
@@ -26,6 +29,33 @@ import services.provide.client.ApiClient
             host = DEFAULT_HOST
         this.client = ApiClient.init(scheme, host, token)
     }
+
+     def  getApplicationId(token) {
+         String base64EncodedBody = token.split("\\.")[1]
+
+         Base64 base64 = new Base64()
+
+         //System.out.println("JWT Header : " + header)
+
+         def body = new String(base64.decode(base64EncodedBody.bytes))
+         def jsonSlurper = new JsonSlurper()
+         def jsonBody = jsonSlurper.parseText(body)
+         assert jsonBody instanceof Map
+
+         //println(body)
+         return jsonBody.get("sub").split(":")[1]
+     }
+
+     def getIPFSList(resp)
+     {
+         def jsonSlurper = new JsonSlurper()
+         def jsonBody = jsonSlurper.parseText(resp.toString().substring(6,resp.toString().length() - 1))
+         assert jsonBody instanceof Map
+         def _resp = jsonBody.get("response")
+         assert _resp instanceof ArrayList<String>
+
+         return _resp
+     }
 
     def fetchBridges(params = nil) {
         client.get('bridges', (params || [:]))
@@ -55,8 +85,8 @@ import services.provide.client.ApiClient
         client.delete("connectors/${connectorId}")
     }
 
-    def fetchContracts(params = nil) {
-        client.get('contracts', (params || [:]))
+    def fetchContracts(params) {
+        client.get('contracts', [:])
     }
 
     def fetchContractDetails(contractId) {
@@ -191,8 +221,8 @@ import services.provide.client.ApiClient
         client.get("wallets/${walletId}/balances/${tokenId}", [:])
     }
 
-    def fetchWallets(params = nil) {
-        client.get('wallets', (params || [:]))
+    def fetchWallets(params ) {
+        client.get('wallets', [:])
     }
 
     def fetchWalletDetails(walletId) {

@@ -8,9 +8,9 @@ import io.ipfs.api.NamedStreamable
  */
 public class IPFSClient {
 
-    private static final DEFAULT_HOST = 'ipfs.infura.io'
+    private static final DEFAULT_HOST = 'ipfs.provide.services'
     private static final DEFAULT_PORT = 5001
-    private static final DEFAULT_SCHEME = 'https'
+    private static final DEFAULT_SCHEME = 'http'
     private static final DEFAULT_VERSION = '/api/v0/'
 
     /**
