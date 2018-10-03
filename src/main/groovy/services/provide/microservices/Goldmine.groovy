@@ -35,21 +35,21 @@ import org.apache.commons.codec.binary.Base64
 
          Base64 base64 = new Base64()
 
-         //System.out.println("JWT Header : " + header)
+
 
          def body = new String(base64.decode(base64EncodedBody.bytes))
          def jsonSlurper = new JsonSlurper()
          def jsonBody = jsonSlurper.parseText(body)
          assert jsonBody instanceof Map
 
-         //println(body)
+
          return jsonBody.get("sub").split(":")[1]
      }
 
      def getIPFSList(resp)
      {
          def jsonSlurper = new JsonSlurper()
-         def jsonBody = jsonSlurper.parseText(resp.toString().substring(6,resp.toString().length() - 1))
+         def jsonBody = jsonSlurper.parseText(resp)
          assert jsonBody instanceof Map
          def _resp = jsonBody.get("response")
          assert _resp instanceof ArrayList<String>
