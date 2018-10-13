@@ -49,7 +49,7 @@ import org.apache.commons.codec.binary.Base64
      def getIPFSList(resp)
      {
          def jsonSlurper = new JsonSlurper()
-         def jsonBody = jsonSlurper.parseText(resp)
+         def jsonBody = jsonSlurper.parseText(resp.get(1))
          assert jsonBody instanceof Map
          def _resp = jsonBody.get("response")
          assert _resp instanceof ArrayList<String>
