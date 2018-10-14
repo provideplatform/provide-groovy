@@ -20,7 +20,7 @@ import org.apache.http.impl.client.HttpClients
  */
  public class ApiClient {
 
-    private static final DEFAULT_HOST = 'console.provide.services'
+    private static final DEFAULT_HOST = 'api.provide.services'
     private static final DEFAULT_SCHEME = 'https'
 
     /**
