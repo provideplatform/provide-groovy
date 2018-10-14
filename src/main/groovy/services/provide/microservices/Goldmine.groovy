@@ -30,31 +30,23 @@ import org.apache.commons.codec.binary.Base64
         this.client = ApiClient.init(scheme, host, token)
     }
 
-     def  getApplicationId(token) {
+     def getApplicationId(token) {
          String base64EncodedBody = token.split("\\.")[1]
-
          Base64 base64 = new Base64()
-
-
-
          def body = new String(base64.decode(base64EncodedBody.bytes))
          def jsonSlurper = new JsonSlurper()
          def jsonBody = jsonSlurper.parseText(body)
          assert jsonBody instanceof Map
-
-
-         return jsonBody.get("sub").split(":")[1]
+         jsonBody.get("sub").split(":")[1]
      }
 
-     def getIPFSList(resp)
-     {
+     def getIPFSList(resp) {
          def jsonSlurper = new JsonSlurper()
          def jsonBody = jsonSlurper.parseText(resp.get(1))
          assert jsonBody instanceof Map
          def _resp = jsonBody.get("response")
          assert _resp instanceof ArrayList<String>
-
-         return _resp
+         _resp
      }
 
     def fetchBridges(params = nil) {
