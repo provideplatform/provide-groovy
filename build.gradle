@@ -6,6 +6,17 @@
  * user guide available at https://docs.gradle.org/4.6/userguide/tutorial_groovy_projects.html
  */
 apply plugin: 'groovy'
+version = '1.0'
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
 
 dependencies {
     // Use the latest Groovy version for building this library
@@ -16,10 +27,8 @@ dependencies {
     compile 'com.github.multiformats:java-multiaddr:v1.3.0'
     compile 'com.github.multiformats:java-multihash:v1.2.0'
     compile 'com.github.ipld:java-cid:v1.1.0'
+    compile 'apache-codec:commons-codec:1.2'
     compile 'io.jsonwebtoken:jjwt-api:0.10.5'
-
-    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5'
-    runtime 'io.jsonwebtoken:jjwt-jackson:0.10.5'
 
     // Use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
