@@ -30,7 +30,6 @@ dependencies {
     compile 'apache-codec:commons-codec:1.2'
     compile 'io.jsonwebtoken:jjwt-api:0.10.5'
 
-
     // Use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }

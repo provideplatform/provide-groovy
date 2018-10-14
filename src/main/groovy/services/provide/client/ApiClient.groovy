@@ -1,6 +1,14 @@
 package services.provide.client
 
 import groovy.json.JsonBuilder
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.JwsHeader
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SigningKeyResolverAdapter
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.SignatureException
+import io.jsonwebtoken.security.Keys
+import java.security.Key
 import org.apache.http.client.methods.*
 import org.apache.http.client.utils.URIBuilder
 import org.apache.http.util.EntityUtils
@@ -49,6 +57,28 @@ import org.apache.http.impl.client.HttpClients
 
     def delete(uri, params) {
         call('DELETE', uri, params, [:])
+    }
+
+    def getApplicationId() {
+        final def token = this.token
+        def subject
+        try {
+            Jwts.parser().setSigningKeyResolver(new SigningKeyResolverAdapter() {
+                public byte[] resolveSigningKeyBytes(JwsHeader header, Claims claims) {
+                    subject = claims.getSubject()
+                    return ''.getBytes();
+                }})
+            .parseClaimsJws(token)
+        } catch (any) {}
+
+        def subParts = subject?.split(':')
+        if (subParts.length != 2) {
+            return null
+        }
+        if (subParts[0] != 'application') {
+            return null
+        }
+        subParts[1]
     }
 
     private def call(method, uri, params, headers) {
