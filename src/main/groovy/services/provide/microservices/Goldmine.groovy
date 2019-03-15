@@ -1,8 +1,11 @@
 package services.provide.client.microservices
 
+import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import services.provide.client.ApiClient
 import org.apache.commons.codec.binary.Base64
+import services.provide.dao.Application
+import services.provide.dao.Contract
 
 /*
  * Goldmine microservice; provides access to functionality
@@ -30,6 +33,31 @@ import org.apache.commons.codec.binary.Base64
         this.client = ApiClient.init(scheme, host, token)
     }
 
+     static def validateToken(token) {
+         String[] parts = token.split("\\.");
+         if (parts.length == 3)
+             return true
+         else
+             return false
+     }
+
+     def getApplication(json) {
+        return Application.init(json)
+     }
+
+     def Contract[] getContracts(json)
+     {
+         ArrayList<Contract> contractArrayList = new ArrayList<Contract>()
+         def list = new JsonSlurper().parseText(json)
+         list.each {
+             def id = it.getAt("id")
+             def name = it.getAt("name")
+             def address = it.getAt("address")
+             contractArrayList.add(new Contract(id,name,address))
+         }
+        return contractArrayList.toArray()
+     }
+
      def  getApplicationId(token) {
          String base64EncodedBody = token.split("\\.")[1]
 
@@ -48,6 +76,7 @@ import org.apache.commons.codec.binary.Base64
 
      def getIPFSList(resp)
      {
+         assert resp instanceof ArrayList<String>
          def jsonSlurper = new JsonSlurper()
          def jsonBody = jsonSlurper.parseText(resp.get(1))
          assert jsonBody instanceof Map
