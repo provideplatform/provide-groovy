@@ -30,6 +30,7 @@ class TestGoldMine extends GroovyTestCase {
         def contracts = prvd.fetchContracts(null)
         Contract[] tvcontract = prvd.getContracts(contracts.get(1))
         def contract = prvd.fetchContractDetails("82075098-d354-418a-808a-ab2dc01a70d2")
+        //def fields = tvcontract[0].getFields(contract.get(1))
         def wallets = prvd.fetchWallets([:])
         //def wallet = prvd.fetchWalletDetails("dfc12196-44d8-4ca2-8e6e-46f3ccf4c3a8")
 

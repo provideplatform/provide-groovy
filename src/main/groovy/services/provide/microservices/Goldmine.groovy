@@ -1,11 +1,14 @@
 package services.provide.client.microservices
 
-import groovy.json.JsonBuilder
+
 import groovy.json.JsonSlurper
 import services.provide.client.ApiClient
 import org.apache.commons.codec.binary.Base64
 import services.provide.dao.Application
 import services.provide.dao.Contract
+
+import services.provide.dao.Field
+import services.provide.dao.Function
 
 /*
  * Goldmine microservice; provides access to functionality
@@ -53,7 +56,51 @@ import services.provide.dao.Contract
              def id = it.getAt("id")
              def name = it.getAt("name")
              def address = it.getAt("address")
-             contractArrayList.add(new Contract(id,name,address))
+             def contract = new Contract(id,name,address);
+
+             def details = this.fetchContractDetails(id)
+             def functions = new ArrayList<Function>();
+
+             def js = new JsonSlurper().parseText(details.get(1))
+             def abi = js.params.abi
+
+
+             // Get all functions and their input / output fields
+             abi.each {
+                 def func_name = it.getAt("name")
+                 def type = it.getAt("type")
+                 if (!func_name.toString().contains("ipfs") && type.toString().equalsIgnoreCase("function")) {
+                     def function = new Function()
+                     def payable = it.getAt("payable")
+                     function.setIsPayable(payable)
+                     function.setName(func_name)
+
+                     def inputs = it.getAt("inputs")
+                     assert inputs instanceof ArrayList
+                     if (inputs.size() > 0)
+                     {
+                         def fields = new ArrayList<Field>()
+                         inputs.each {
+                             fields.add(new Field(it.getAt("name").toString(), it.getAt("type").toString()))
+                         }
+                         function.setInputs(fields.toArray(new Field[0]))
+                     }
+                     def outputs = it.getAt("outputs")
+                     assert outputs instanceof ArrayList
+                     if (outputs.size() > 0)
+                     {
+                         def fields = new ArrayList<Field>()
+                         outputs.each {
+                             fields.add(new Field(it.getAt("name").toString(), it.getAt("type").toString()))
+                         }
+                         function.setOutputs(fields.toArray(new Field[0]))
+                     }
+                     functions.add(function)
+                 }
+
+             }
+            contract.setFunctions(functions.toArray(new Function[0]))
+             contractArrayList.add(contract)
          }
         return contractArrayList.toArray()
      }
