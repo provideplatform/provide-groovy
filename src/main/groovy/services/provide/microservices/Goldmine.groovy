@@ -69,7 +69,7 @@ import services.provide.dao.Function
              abi.each {
                  def func_name = it.getAt("name")
                  def type = it.getAt("type")
-                 if (!func_name.toString().contains("ipfs") && type.toString().equalsIgnoreCase("function")) {
+                 if (type.toString().equalsIgnoreCase("function")) {
                      def function = new Function()
                      def payable = it.getAt("payable")
                      function.setIsPayable(payable)
