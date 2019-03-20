@@ -20,7 +20,7 @@ import org.apache.http.impl.client.HttpClients
  */
  public class ApiClient {
 
-    private static final DEFAULT_HOST = 'console.provide.services'
+    private static final DEFAULT_HOST = 'api.provide.services'
     private static final DEFAULT_SCHEME = 'https'
 
     /**
@@ -96,9 +96,9 @@ import org.apache.http.impl.client.HttpClients
 
             if (method == 'GET') {
                 def builder = new URIBuilder("${baseUrl}${uri}")
-                params.each { k, v ->
-                    builder.setParameter(k, v)
-                }
+                    params.each { k, v ->
+                        builder.setParameter(k, v)
+                    }
                 req = new HttpGet(builder.build())
             } else if (['POST', 'PUT', 'PATCH'].indexOf(method) != -1) {
                 if (method == 'POST') {

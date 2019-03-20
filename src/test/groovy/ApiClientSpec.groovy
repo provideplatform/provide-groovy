@@ -12,7 +12,7 @@ class ApiClientSpec extends Specification {
 
     def 'it should use production as the default api host'() {
         expect:
-            prvdClient.baseUrl == 'https://console.provide.services/api/v1/'
+            prvdClient.baseUrl == 'https://api.provide.services/api/v1/'
     }
 
     def 'it should expose the application id in the token'() {
