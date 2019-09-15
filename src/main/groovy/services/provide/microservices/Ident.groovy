@@ -51,6 +51,18 @@ import services.provide.client.ApiClient
         client.post('authenticate', params)
     }
 
+    def createKycApplication(params) {
+        client.post('kyc_applications', params)
+    }
+
+    def fetchKycApplications(params) {
+        client.get('kyc_applications', params)
+    }
+
+    def fetchKycApplicationDetails(kyc_application_id) {
+        client.get("kyc_applications/${kyc_application_id}", [:])
+    }
+
     def fetchTokens(params) {
         client.get('tokens', params)
     }
