@@ -30,6 +30,22 @@ import org.apache.commons.codec.binary.Base64
         this.client = ApiClient.init(scheme, host, token)
     }
 
+    def fetchAccountBalance(accountId, tokenId) {
+        client.get("accounts/${accountId}/balances/${tokenId}", [:])
+    }
+
+    def fetchAccounts(params) {
+        client.get('accounts', (params || [:]))
+    }
+
+    def fetchAccountDetails(accountId) {
+        client.get("accounts/${accountId}", [:])
+    }
+
+    def createAccount(params) {
+        client.post('accounts', params)
+    }
+
     def fetchBridges(params = nil) {
         client.get('bridges', (params || [:]))
     }
@@ -188,10 +204,6 @@ import org.apache.commons.codec.binary.Base64
 
     def fetchTransactionDetails(txId) {
         client.get("transactions/${txId}", [:])
-    }
-
-    def fetchWalletBalance(walletId, tokenId) {
-        client.get("wallets/${walletId}/balances/${tokenId}", [:])
     }
 
     def fetchWallets(params ) {
